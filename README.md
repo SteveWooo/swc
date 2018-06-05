@@ -1,14 +1,5 @@
 # 简述
-利用udp打洞的方式实现p2p网络。要求网络中必须有部分节点拥有公共ip（求解
-
-#配置
-#### modules/init.js 中config.remote为默认节点列表，该节点必须能被所有节点直接访问
-
-# 使用（默认本地
-### 公网节点启动
-node startup.js main 7070 （端口和id可配置，但需要加入remote配置列表中
-### 节点启动
-node startup.js YOUR_ID LOCAL_PORT
+利用udp打洞的方式实现p2p网络
 
 # 具体思路  
 * 启动一个公网可访问的节点
@@ -16,6 +7,14 @@ node startup.js YOUR_ID LOCAL_PORT
 * 普通节点发送所有可连接节点列表到所有可连接节点（包括公网节点
 * 公网节点记录普通节点的外网ip:port，并同步普通节点的可连接节点列表
 * 其他节点启动时，也做同样的广播操作
-  
 
+# 配置
+#### modules/init.js 中config.remote为默认节点列表，该节点必须能被所有节点直接访问
+
+# 使用（默认本地
+### 公网节点启动
+node startup.js main 7070 （端口和id可配置，但需要加入remote配置列表中
+### 节点启动
+node startup.js YOUR_ID LOCAL_PORT
+  
 #### 注意：公网节点和普通节点业务逻辑上没任何差别
