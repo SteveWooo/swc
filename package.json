@@ -1,0 +1,24 @@
+{
+  "name": "swc",
+  "version": "1.0.0",
+  "description": "纯p2p网络搭建探讨",
+  "main": "startup.js",
+  "scripts": {
+    "test": "node startup.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SteveWooo/swc.git"
+  },
+  "keywords": [
+    "node",
+    "p2p",
+    "blockchain"
+  ],
+  "author": "SteveWooo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SteveWooo/swc/issues"
+  },
+  "homepage": "https://github.com/SteveWooo/swc#readme"
+}
