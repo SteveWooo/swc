@@ -8,6 +8,7 @@ module.exports = ()=>{
 		},
 		remote : [{ //可配置的服务节点
 			address : '127.0.0.1',
+			address : '115.28.241.66',
 			port : 7070,
 			name : 'main'
 		}]

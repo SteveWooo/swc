@@ -11,6 +11,7 @@ client.on('error', e=>{
 	console.log(e);
 })
 client.on('message', (msg, info)=>{
+	console.log('get : ' + info.address);
 	try{
 		msg = JSON.parse(msg.toString());
 	}catch(e){
