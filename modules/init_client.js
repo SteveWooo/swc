@@ -48,6 +48,7 @@ let shareNodes = ()=>{
 		if(nodes[i].name == config['name']){
 			continue;
 		}
+		console.log("send:" + nodes[i].address + ":" + nodes[i].port);
 		client.send(JSON.stringify({
 			operate : "share_nodes",
 			response : {
