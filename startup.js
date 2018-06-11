@@ -1,11 +1,15 @@
-require('./modules/init')();
+require('./modules/init_config')();
 let client = require('./modules/init_client')();
+client.run(client); //启动节点
+/*
+* 启动网络 寻找节点
+* 获取最长链区块的总hash值
+* 同步区块
+*/
+
 setInterval(()=>{
-	let nodes = client.get_nodes();
+	let nodes = global.p2p.nodes;
 	for(var i in nodes){
-		console.log({
-			ip : nodes[i].address,
-			port : nodes[i].port
-		})
+		console.log(nodes[i].name)
 	}
 }, 1000)
