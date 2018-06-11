@@ -1,0 +1,37 @@
+新区块hash = sha256(prev_hash + nonce + merkle_root)
+
+nonce计算规则：(包含校验也是如此)
+difficult根据区块生成时间动态调整，
+要求 sha256(prev_hash + nonce).substring(0, difficult.length) == difficult;
+
+区块生成流程：
+1:获得其他节点宣布新区块hash和新difficult
+2:验证区块正确性，交易数据正确性，交易签名验证，然后写入本地块，公布confirm事件。
+3:开始利用新区块hash进行nonce计算
+4:计算出nonce，打包这期间的交易，计算merkle tree
+
+交易创建方式：
+交易块结构
+{
+	hash : "公钥+create_time+data+random_seed"
+	creator : "公钥",
+	create_time : "msts",
+	data : "待定数据结构"
+}
+
+交易创建者利用private key加密交易块，然后和公钥一起公布到网络。
+验证流程：用公钥解密后，校验creator是否等于公钥
+
+交易公布获取方式：
+1：交易发起者公布交易
+2：节点矿工把这一交易组播（如果creator=当前public key则不转发），然后保存在内存中。
+3：节点nonce计算成功后，把当前所有交易打包，把交易内容和块头，全部公布一个valid事件
+
+开发顺序：
+x 1:基本网络搭建
+x 2:p2p广播
+3:节点生成、接受交易信息接口
+4:节点生成数据块（挖矿）模块
+5:节点验证模块
+6:同步区块，拉去交易信息模块
+7:数据汇总读取接口

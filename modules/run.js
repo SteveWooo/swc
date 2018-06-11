@@ -29,5 +29,8 @@ function init_udp_client(client){
 
 module.exports.handle = (client)=>{
 	init_udp_client(client);
-	client.actions.start_share_nodes(client);
+	//读取区块
+	
+	//同步区块
+	return client.actions.start_share_nodes(client); //心跳行为
 }
