@@ -15,6 +15,9 @@ module.exports = ()=>{
 			}
 		},
 		config : {
+			webapp : {
+				port : 8080
+			},
 			name : process.argv[2] || "main",
 			port : process.argv[3] || 7070,
 			node_timeout : 5000,

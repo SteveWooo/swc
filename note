@@ -1,8 +1,8 @@
-新区块hash = sha256(prev_hash + nonce + merkle_root)
+新区块hash = md5(prev_hash + nonce + merkle_root)
 
 nonce计算规则：(包含校验也是如此)
 difficult根据区块生成时间动态调整，
-要求 sha256(prev_hash + nonce).substring(0, difficult.length) == difficult;
+要求 md5(prev_hash + nonce).substring(0, difficult.length) == difficult;
 
 区块生成流程：
 1:获得其他节点宣布新区块hash和新difficult
@@ -13,11 +13,16 @@ difficult根据区块生成时间动态调整，
 交易创建方式：
 交易块结构
 {
-	hash : "公钥+create_time+data+random_seed"
-	creator : "公钥",
+	hash_id : md5("public+create_time+data"),
+	creator : "public",
 	create_time : "msts",
-	data : "待定数据结构"
+	data : "待定数据结构",
+	sign : ecc(private+md5('public+create_time+data')),
+	random : "6位int"
 }
+
+交易签名认证：
+ecc(public, data, sign)
 
 交易创建者利用private key加密交易块，然后和公钥一起公布到网络。
 验证流程：用公钥解密后，校验creator是否等于公钥

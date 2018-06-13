@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/SteveWooo/swc/issues"
   },
-  "homepage": "https://github.com/SteveWooo/swc#readme"
+  "homepage": "https://github.com/SteveWooo/swc#readme",
+  "dependencies": {
+    "coinstring": "^2.3.0",
+    "crypto": "^1.0.1",
+    "eccrypto": "^1.0.3",
+    "ecurve": "^1.0.6",
+    "express": "^4.16.3"
+  }
 }

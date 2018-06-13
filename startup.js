@@ -1,10 +1,7 @@
 let client = require('./modules/init_client')();
 let interval = client.run(client); //启动节点
-/*
-* 启动网络 寻找节点
-* 获取最长链区块的总hash值
-* 同步区块
-*/
+require('./webapp/router')(client); //启动web服务
+require('./union_test')(client);
 
 setInterval(()=>{
 	let nodes = global.p2p.nodes;

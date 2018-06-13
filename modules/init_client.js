@@ -1,4 +1,4 @@
-require('./modules/init_config')(); //全局初始化
+require('./init_config')(); //全局初始化
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 const config = global.p2p.config;
@@ -18,7 +18,7 @@ const client_actions = { //客户端主动行为
 }
 
 const trade = {
-	add : ()=>{}, //新增一笔交易 需要密钥
+	create : ()=>{}, //新增一笔交易 需要密钥
 }
 
 const block = {
@@ -27,20 +27,15 @@ const block = {
 	submit_work : ()=>{}, //提交挖矿结果
 }
 
-const utils = {
-	create_key : ()=>{}, //生成密钥对
-}
-
 module.exports = ()=>{
 	return {
+		utils : require('./utils/index'), 
 		udp_client : client, //udp handle
 		run : require('./run').handle, //启动
 		actions : client_actions, //客户端主动行为
 		responses : responses, //客户端接受数据行为
 		requests : requests, //客户端接受请求行为
-
 		block : block, //区块相关操作
-		miner : miner, //矿工相关操作
 		trade : trade, //交易模块
 	};
 }
