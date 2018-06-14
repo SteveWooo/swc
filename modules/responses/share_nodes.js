@@ -1,6 +1,6 @@
 const config = global.p2p.config;
 
-exports.handle = (msg, info, client)=>{
+exports.handle = (client, msg, info)=>{
 	let _nodes = msg.response['nodes'];
 	let _name = msg.response['name'];
 	let now = +new Date();

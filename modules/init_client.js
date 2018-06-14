@@ -5,7 +5,7 @@ const config = global.p2p.config;
 let nodes = global.p2p.nodes;
 const responses = { //接受响应操作
 	share_nodes : require('./responses/share_nodes').handle, //心跳事件
-	trade : ()=>{}, //接收到新交易事件
+	trade : require('./responses/trade'), //接收到新交易事件
 	block : ()=>{}, //接收到心区块事件
 }
 const requests = {
@@ -14,14 +14,14 @@ const requests = {
 const client_actions = { //客户端主动行为
 	start_share_nodes : require('./clients/start_share_nodes').handle, //节点心跳启动 @param client
 	broadcast : require('./clients/broadcast').handle, //@param client nodes data
-	send_trade : ()=>{}, //广播发送一个交易请求 @param client trade
+	send_trade : require('./clients/send_trade'), //广播发送一个交易请求 @param client trade
 	send_block : ()=>{}, //广播一个新区块 @param client block trades
 }
 
 const trade = {
 	create : require('./trade/create'), //新增一笔交易 @param client data key
 	valid : require('./trade/valid'), //检查交易正确性，包括是否已经被写入链 @param client trade
-	cache : ()=>{}, //缓存交易 @param client trade
+	cache : require('./trade/cache'), //缓存交易 @param client trade
 }
 
 const block = {

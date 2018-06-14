@@ -5,7 +5,7 @@ function init_udp_client(client){
 		console.log(e);
 	})
 	client.udp_client.on('message', (msg, info)=>{
-		console.log('get : ' + info.address + ":" + info.port);
+		// console.log('get : ' + info.address + ":" + info.port);
 		try{
 			msg = JSON.parse(msg.toString());
 		}catch(e){
@@ -17,9 +17,9 @@ function init_udp_client(client){
 		}
 
 		if(msg.request != undefined && client.requests[msg.operate] != undefined){
-			client.requests[msg.operate](msg, info, client.udp_client);
+			client.requests[msg.operate](client, msg, info);
 		} else if (msg.response != undefined && client.responses[msg.operate] != undefined){
-			client.responses[msg.operate](msg, info, client.udp_client);
+			client.responses[msg.operate](client, msg, info);
 		}
 	})
 	client.udp_client.on('listening', ()=>{

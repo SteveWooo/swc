@@ -14,6 +14,9 @@ module.exports = ()=>{
 				}
 			}
 		},
+		cache : {
+			trades : {}
+		},
 		config : {
 			webapp : {
 				port : 8080
