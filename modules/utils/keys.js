@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 exports.create = async ()=>{
 	let private_key = crypto.randomBytes(32).toString('hex');
-	let public_key = eccrypto.getPublic(new Buffer(private_key, 'hex')).toString('hex');
+	let public_key = eccrypto.getPublic(Buffer.from(private_key, 'hex')).toString('hex');
 	let key = {
 		public_key : "SWC" + public_key,
 		private_key : private_key
@@ -34,24 +34,12 @@ struct trade = {
 	random : "6位int"
 }
 */
-exports.valid = async (trade)=>{
-	//内容完整性检查
-	if(parseInt(trade.create_time) != trade.create_time ||
-		(parseInt(trade.create_time) + "").length != 13){
-		return false;
-	}
-	let msg = trade.creator + trade.create_time + trade.data + trade.random;
-	let msg_hash = crypto.createHash('md5').update(msg).digest('hex');
-
-	//hash_id检查
-	if(msg_hash != trade.hash_id){
-		return false ;
-	}
-
+exports.valid = async (public_key, data_hash, sign)=>{
 	//签名验证：
 	try{
-		eccrypto.verify(new Buffer(trade.creator.substring(3), 'hex'), trade.hash_id, trade.sign);
+		await eccrypto.verify(Buffer.from(public_key.substring(3), 'hex'), data_hash, sign);
 	}catch(e){
+		//log data
 		return false;
 	}
 
@@ -83,7 +71,7 @@ exports.sign = async (trade, private_key)=>{
 			trade.data + 
 			trade.random).digest('hex');
 
-	trade.sign = (await eccrypto.sign(new Buffer(private_key, 'hex'), trade.hash_id)).toString('hex');
+	trade.sign = (await eccrypto.sign(Buffer.from(private_key, 'hex'), trade.hash_id)).toString('hex');
 
 	return trade;
 }

@@ -16,6 +16,6 @@ module.exports = async (client)=>{
 	console.log(sign_trade);
 	console.log("=====================");
 
-	let valid = await client.utils.keys.valid(trade);
+	let valid = await client.utils.keys.valid(trade.creator, trade.hash_id, trade.sign);
 	console.log("valid:" + valid);
 }
