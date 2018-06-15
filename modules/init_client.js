@@ -25,16 +25,18 @@ const trade = {
 }
 
 const block = {
+	create : require('./block/create'), //创建区块 @param client prev_block obj{nonce, trades}
 	valid : ()=>{}, //验证block真实性 @param client block trades
 	get_work : ()=>{}, //获取当前需要挖矿的工作 @param client
 	submit_work : ()=>{}, //提交挖矿结果 @param client newblock trades
 }
 
 const storage = { //封装存储接口，方便扩容
-	save_trade : ()=>{}, //保存交易 @param client trade name
-	save_block : ()=>{}, //保存区块 @param client block name
-	get_block : ()=>{}, //获取block @param client block_hash_id
-	get_trade : ()=>{}, //获取trade @param client trade_hash_id
+	save_trade : require('./storage/save_trade'), //保存交易 @param client trade
+	get_trade_by_id : require('./storage/get_trade_by_id'), //获取trade @param client trade_hash_id
+	get_trade_by_block : require('./storage/get_trade_by_block'), //获取trade @param client block_hash_id
+	save_block : require('./storage/save_block'), //保存区块 @param client block
+	get_block_by_id : require('./storage/get_block_by_id'), //获取block @param client block_hash_id
 }
 
 module.exports = ()=>{
@@ -47,5 +49,6 @@ module.exports = ()=>{
 		requests : requests, //客户端接受请求行为
 		block : block, //区块相关操作
 		trade : trade, //交易模块
+		storage : storage, //持久层模块
 	};
 }

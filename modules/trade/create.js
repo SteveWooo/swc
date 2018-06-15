@@ -6,6 +6,7 @@ module.exports = async (client, data, key)=>{
 		})
 	}
 	//TODO：检查协议
+	data.replace(/\n/g, '');
 
 	let trade = {
 		creator : key.public_key,

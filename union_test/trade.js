@@ -14,16 +14,20 @@ module.exports = async (client)=>{
 		// console.log("valid : " + valid);
 		// console.log("========================");
 
-		setTimeout(()=>{
-			console.log('send');
-			client.actions.send_trade(client, trade);
-		}, 4000);
+		// setTimeout(()=>{
+		// 	console.log('send');
+		// 	client.actions.send_trade(client, trade);
+		// }, 4000);
 
-		setTimeout(()=>{
-			console.log('cache:');
-			console.log(global.p2p.cache);
-		}, 10000);
+		// setTimeout(()=>{
+		// 	console.log('cache:');
+		// 	console.log(global.p2p.cache);
+		// }, 10000);
 
+		//save trade;
+		// client.storage.save_trade(client, trade);
+		let result = client.storage.get_trade(client, "e185105666644782673669c0c070475a");
+		console.log(result);
 	}catch(e){
 		console.log(e);
 	}

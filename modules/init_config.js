@@ -18,6 +18,7 @@ module.exports = ()=>{
 			trades : {}
 		},
 		config : {
+			version : "0.1",
 			webapp : {
 				port : 8080
 			},
@@ -25,6 +26,7 @@ module.exports = ()=>{
 			port : process.argv[3] || 7070,
 			node_timeout : 5000,
 			max_p2p_nodes : 10, //最大同时存在节点数目
+			data_path : "./data", //区块&交易文件存放根目录
 		},
 		remote : [{ //可配置的服务节点
 			address : '127.0.0.1',
