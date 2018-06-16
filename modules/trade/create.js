@@ -14,7 +14,7 @@ module.exports = async (client, data, key)=>{
 	}
 
 	//签名
-	let trade_signed = await client.utils.keys.sign(trade, key.private_key);
+	let trade_signed = await client.utils.keys.trade_sign(trade, key.private_key);
 
 	return trade_signed;
 }

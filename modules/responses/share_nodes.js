@@ -1,6 +1,11 @@
 const config = global.p2p.config;
 
+function share_block(client, msg, info){
+	//判断对方的区块层数是否比自己的区块层数高，如果比自己低，则分享区块。（不需要处理比自己高的case）;
+}
+
 exports.handle = (client, msg, info)=>{
+	console.log(msg);
 	let _nodes = msg.response['nodes'];
 	let _name = msg.response['name'];
 	let now = +new Date();

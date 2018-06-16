@@ -10,7 +10,8 @@ function share(client){
 		response : {
 			name : config['name'],
 			nodes : nodes
-		}
+		},
+		block_number : global.p2p.cache['prev_block']['block_number']
 	});
 }
 

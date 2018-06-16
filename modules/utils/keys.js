@@ -52,7 +52,7 @@ exports.valid = async (public_key, data_hash, sign)=>{
 	creator : "public key",
 }
 */
-exports.sign = async (trade, private_key)=>{
+exports.trade_sign = async (trade, private_key)=>{
 	if(!trade || !trade.creator 
 		|| trade.creator.length != 133 
 		|| trade.creator.substring(0, 3) != "SWC"
@@ -74,4 +74,9 @@ exports.sign = async (trade, private_key)=>{
 	trade.sign = (await eccrypto.sign(Buffer.from(private_key, 'hex'), trade.hash_id)).toString('hex');
 
 	return trade;
+}
+
+exports.block_sign = async (block, private_key)=>{
+	block.sign = (await eccrypto.sign(Buffer.from(private_key, 'hex'), block.hash_id)).toString('hex');
+	return block;
 }
