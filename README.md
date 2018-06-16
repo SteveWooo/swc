@@ -1,20 +1,52 @@
 # 简述
-对等网络探讨
+基于POW共识的区块链系统
 
-# 具体思路  
-* 启动一个公网可访问的节点
-* 启动普通节点（也可以是公网
-* 普通节点发送所有可连接节点列表到所有可连接节点（包括公网节点
-* 公网节点记录普通节点的外网ip:port，并同步普通节点的可连接节点列表
-* 其他普通节点启动时，做同样的操作，对局域网节点进行打洞
+# 系统流程
+##### 创建交易
+参数：交易数据，公密钥
+##### 广播交易
+交易内容传递给所有节点，然后节点缓存交易
+##### pow挖矿
+根据prev_block，计算nonce
+##### 创建区块
+计算完nonce，把当前本地缓存的所有交易绑定到区块中
+##### 广播区块
+把区块数据+交易数据广播到p2p网络中
+##### 写入节点数据库
+p2p网络中的节点接受到区块信息后，验证区块签名与所有交易签名正确无误后，写入本地
 
 # 配置
 #### modules/init.js 中config.remote为默认节点列表，该节点必须能被所有节点直接访问
+#### modules/init.js 中config/webapp为用户图形界面接口配置（port节点等）
 
-# 使用（默认本地
-### 公网节点启动
-node startup.js main 7070 （端口和id可配置，但需要加入remote配置列表中
-### 节点启动
-node startup.js YOUR_ID LOCAL_PORT
-  
+# 启动
+./node startup.js {全局唯一客户端编号（beta版本会自动分配）} {p2p节点端口号}
+
 #### 注意：公网节点和普通节点业务逻辑上没任何差别
+
+# 接口说明：
+## client（总工具库）
+### client.trade : 交易库
+##### client.trade.create : 创建交易
+
+##### client.trade.cache : 交易缓存
+##### client.trade.valid : 验证交易
+
+### client.block :区块库
+##### client.block.create : 区块创建
+##### client.block.get_markle_root : 获取markle树的根哈希值
+##### client.block.valid : 验证区块正确性
+
+### client.storage : 持久层接口
+##### storage.save_trade : 把交易内容写入本地文件
+##### storage.get_trade_by_id : 根据交易trade_id获取交易内容
+##### storage.get_trade_by_block : 根据blockid获取该区块下的所有交易
+##### storage.save_block : 把区块写入本地文件
+##### storage.get_block_by_id : 根据hash_id获取
+
+### client.utils : 公用接口
+#### client.utils.keys : 公密钥库
+##### client.utils.keys.create : 创建一对公密钥
+##### client.utils.keys.valid : 验证签名
+##### client.utils.keys.trade_sign : 签名交易
+##### client.utils.keys.block_sign : 区块签名

@@ -25,8 +25,9 @@ const trade = {
 }
 
 const block = {
-	create : require('./block/create'), //创建区块 @param client prev_block obj{nonce, trades}
-	valid : ()=>{}, //验证block真实性 @param client block trades
+	get_markle_root : require('./block/get_markle_root'), //获取markle root @param client trades
+	create : require('./block/create'), //创建区块 @param client prev_block obj{nonce, trades, key}
+	valid : require('./block/valid'), //验证block真实性 @param client block key
 	get_work : ()=>{}, //获取当前需要挖矿的工作 @param client
 	submit_work : ()=>{}, //提交挖矿结果 @param client newblock trades
 }
