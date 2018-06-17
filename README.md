@@ -50,12 +50,12 @@ p2p网络中的节点接受到区块信息后，验证区块签名与所有交�
 ##### client.block.valid : 验证区块正确性
 
 ### client.storage : 持久层接口
-##### storage.save_trade : 把交易内容写入本地文件
-##### storage.get_trade_by_id : 根据交易trade_id获取交易内容
-##### storage.get_trade_by_block : 根据blockid获取该区块下的所有交易
-##### storage.save_block : 把区块写入本地文件
-##### storage.get_block_by_id : 根据hash_id获取
-##### storage.get_block_by_number : 根据区块编号获取区块
+##### client.storage.save_trade : 把交易内容写入本地文件
+##### client.storage.get_trade_by_id : 根据交易trade_id获取交易内容
+##### client.storage.get_trade_by_block : 根据blockid获取该区块下的所有交易
+##### client.storage.save_block : 把区块写入本地文件
+##### client.storage.get_block_by_id : 根据hash_id获取
+##### client.storage.get_block_by_number : 根据区块编号获取区块
 
 ### client.utils : 公用接口
 #### client.utils.keys : 公密钥库
