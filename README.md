@@ -1,6 +1,15 @@
 ## 简述
 基于POW共识的区块链系统
 
+## 本地演示启动（多控制台）
+* git clone https://github.com/SteveWooo/swc
+* cd swc
+* 窗口1 : node ./startup.js
+* 窗口2 : node ./startup.js c1 7001
+
+##### 命令说明：
+./node startup.js {全局唯一客户端编号（beta版本会自动分配）} {p2p节点端口号}
+
 ## 功能模块
 ### 创建交易
 参数：交易数据，公密钥
@@ -18,9 +27,6 @@ p2p网络中的节点接受到区块信息后，验证区块签名与所有交�
 ## 配置
 #### modules/init.js 中config.remote为默认节点列表，该节点必须能被所有节点直接访问
 #### modules/init.js 中config/webapp为用户图形界面接口配置（port节点等）
-
-# 启动
-./node startup.js {全局唯一客户端编号（beta版本会自动分配）} {p2p节点端口号}
 
 #### 注意：公网节点和普通节点业务逻辑上没任何差别
 
