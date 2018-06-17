@@ -2,10 +2,17 @@ const config = global.p2p.config;
 
 function share_block(client, msg, info){
 	//判断对方的区块层数是否比自己的区块层数高，如果比自己低，则分享区块。（不需要处理比自己高的case）;
+	let prev_block = global.p2p.cache.prev_block;
+	if(prev_block.block_number > msg.block_number){
+		//share block;
+		let block_share = client.storage.get_block_by_number(client, parseInt(msg.block_number) + 1);
+		let trades_share = client.storage.get_trade_by_block(client, block_share[0]['hash_id']);
+		client.actions.send_block_to(client, info, block_share[0], trades_share);
+	}
 }
 
 exports.handle = (client, msg, info)=>{
-	console.log(msg);
+	share_block(client, msg, info);
 	let _nodes = msg.response['nodes'];
 	let _name = msg.response['name'];
 	let now = +new Date();

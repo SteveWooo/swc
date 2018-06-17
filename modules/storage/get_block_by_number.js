@@ -1,7 +1,7 @@
 const config = global.p2p.config;
 const fs = require('fs');
 
-module.exports = (client, hash_id)=>{
+module.exports = (client, block_number)=>{
 	let path = config.data_path;
 	var result = fs.readFileSync(path + "/" + config.name + "/blocks/block").toString();
 	result = result.split('\n');
@@ -13,7 +13,7 @@ module.exports = (client, hash_id)=>{
 		}catch(e){
 			//不需要理会错误交易
 		}
-		if(d.hash_id === hash_id){
+		if(d.block_number === block_number){
 			block.push(d);
 		}
 	})

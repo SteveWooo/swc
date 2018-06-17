@@ -31,6 +31,9 @@ module.exports = ()=>{
 		block_data.push(genesis);
 	}
 
+	let prev_block = block_data[block_data.length - 1];
+	prev_block = typeof prev_block == "string" ? JSON.parse(prev_block) : prev_block;
+
 	//初始化缓存
-	global.p2p.cache['prev_block'] = block_data[block_data.length - 1];
+	global.p2p.cache['prev_block'] = prev_block;
 }

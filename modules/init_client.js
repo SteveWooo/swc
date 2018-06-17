@@ -7,7 +7,7 @@ let nodes = global.p2p.nodes;
 const responses = { //接受响应操作
 	share_nodes : require('./responses/share_nodes').handle, //心跳事件
 	trade : require('./responses/trade'), //接收到新交易事件
-	block : ()=>{}, //接收到心区块事件
+	block : require('./responses/block'), //接收到心区块事件
 }
 const requests = {
 	get_block : (number)=>{}, //请求获取区块和交易内容
@@ -16,7 +16,8 @@ const client_actions = { //客户端主动行为
 	start_share_nodes : require('./clients/start_share_nodes').handle, //节点心跳启动 @param client
 	broadcast : require('./clients/broadcast').handle, //@param client nodes data
 	send_trade : require('./clients/send_trade'), //广播发送一个交易请求 @param client trade
-	send_block : ()=>{}, //广播一个新区块 @param client block trades
+	send_block : require('./clients/send_block'), //广播一个新区块 @param client block trades
+	send_block_to : require('./clients/send_block_to'), //发送一个区块给某个地址 @param client node block trades
 }
 
 const trade = {
@@ -39,6 +40,7 @@ const storage = { //封装存储接口，方便扩容
 	get_trade_by_block : require('./storage/get_trade_by_block'), //获取trade @param client block_hash_id
 	save_block : require('./storage/save_block'), //保存区块 @param client block
 	get_block_by_id : require('./storage/get_block_by_id'), //获取block @param client block_hash_id
+	get_block_by_number : require('./storage/get_block_by_number'), //获取block @param client block_number
 }
 
 module.exports = ()=>{

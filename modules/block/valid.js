@@ -22,10 +22,9 @@ module.exports = async (client, prev_block, new_block)=>{
 	}
 	//验证挖矿正确性：
 	//上一个区块的difficult作为下一个区块的挖矿难度
-	let nonce_hash = crypto.createHash('md5').update(block.nonce + "").digest('hex');
+	let nonce_hash = crypto.createHash('md5').update(prev_block.hash_id + "" + block.nonce).digest('hex');
 	nonce_hash = nonce_hash.substring(0, prev_block.difficult.length);
 	if(nonce_hash != prev_block.difficult){
-		console.log('nonce faile');
 		valid = false;
 	}
 
