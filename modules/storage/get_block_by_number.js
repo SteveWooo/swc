@@ -13,7 +13,7 @@ module.exports = (client, block_number)=>{
 		}catch(e){
 			//不需要理会错误交易
 		}
-		if(d.block_number === block_number){
+		if(d.block_number == block_number){
 			block.push(d);
 		}
 	})

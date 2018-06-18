@@ -35,11 +35,6 @@ module.exports = async (client, msg, info)=>{
 	//更新缓存
 	global.p2p.cache.prev_block = new_block;
 
-	console.log('get new Block:');
-	for(var i in new_trades){
-		console.log(new_trades[i]['data']);
-	}
-
 	//广播新区块
 	client.actions.send_block(client, new_block, new_trades);
 }

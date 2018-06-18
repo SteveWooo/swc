@@ -22,15 +22,15 @@ async function miner(client){
 	let trades = {};
 	trades[trade_1['hash_id']] = trade_1;
 	trades[trade_2['hash_id']] = trade_2;
-
 	let result = await client.block.create(client, prev_block, {
-		trades : trades,
+		trades : global.p2p.cache.trades,
 		key : key,
 		nonce : number
 	})
 
 	//广播block
 	client.actions.send_block(client, result.block, result.trades);
+	client.trade.cache.clear();
 }
 
 module.exports = async (client)=>{

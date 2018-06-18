@@ -21,7 +21,7 @@ module.exports = ()=>{
 		config : {
 			version : "0.1",
 			webapp : {
-				port : 8080
+				port : parseInt(process.argv[3] || 7070) + 1
 			},
 			name : process.argv[2] || "main",
 			port : process.argv[3] || 7070,

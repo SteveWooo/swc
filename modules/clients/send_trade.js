@@ -9,4 +9,6 @@ module.exports = (client, trade)=>{
 			trade : trade
 		}
 	});
+
+	return trade;
 }

@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 //获取新区块难度
 function get_difficult(prev_block, new_data){
-	return "000";
+	return prev_block.difficult;
 }
 
 /*
