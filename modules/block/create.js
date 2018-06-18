@@ -1,5 +1,11 @@
 const config = global.p2p.config;
 const crypto = require('crypto');
+
+//获取新区块难度
+function get_difficult(prev_block, new_data){
+	return "000";
+}
+
 /*
 @param prev_block 上一个区块
 @param new_data 新一个区块的数据
@@ -21,7 +27,7 @@ module.exports = async (client, prev_block, new_data)=>{
 		"merkle_root" : markle_root,
 		"block_number" : parseInt(prev_block.block_number) + 1,
 		"nonce" : new_data.nonce,
-		"difficult" : "000",
+		"difficult" : get_difficult(prev_block, new_data),
 		"creator" : new_data.key.public_key
 	}
 	let trades = new_data.trades;
