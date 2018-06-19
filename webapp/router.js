@@ -3,7 +3,7 @@ const app = express();
 const config = global.p2p.config;
 
 module.exports = (client)=>{
-	app.use(express.static('./static'));
+	app.use('/static', express.static('./webapp/static'));
 	// 允许所有的请求形式
 	app.use(function(req, res, next) {
 	    res.header("Access-Control-Allow-Origin", "*");

@@ -2,8 +2,103 @@
 <html>
 <head>
 	<title>opps!..</title>
+	<script type="text/javascript" src="./lib/jquery.min.js"></script>
+	<script type="text/javascript" src="./lib/vue.min.js"></script>
+	<style type="text/css">
+		#blocks ul{
+			width : 100%;
+			word-wrap:break-word;
+		}
+
+		#blocks ul li {
+			border: solid 1px #111;
+			width : 100%;
+			height : 90px;
+			line-height: 30px;
+		}
+	</style>
 </head>
 <body>
+	<div id="app">
+		<h1>
+			Blocks:
+		</h1>
+		<div id="blocks">
+			<ul>
+				<li v-for="block in blocks">
+					<strong>{{block.block_number}}</strong>:{{block.hash_id}}</br>by:{{block.creator}}
+				</li>
+			</ul>
+		</div>
+	</div>
 
+	<script type="text/javascript">
+		var config = {
+			base_url : "http://127.0.0.1",
+			base_port : "7002",
+		}
+
+		var utils = {
+			//获取最新区块
+			get_info : function(number, callback){
+				$.ajax({
+					url : config.base_url + ":" + config.base_port + "/block/get_info" + 
+						(number == undefined ? "" : "?block_number=" + number),
+					success : function(res){
+						if(res.code !== 2000){
+							console.log(res);
+							return ;
+						}
+						callback(res.data);
+					},
+					error : function(e){
+						console.log(e);
+					}
+				})
+			}
+		}
+
+		var app = new Vue({
+			el : '#app',
+			data : {
+				blocks : []
+			},
+			methods : {
+				init_blocks : function(){
+					var that = this;
+					var block_number;
+
+					function get_other_block(number, cb){
+						if(number <= 0){
+							cb();
+							return ;
+						}
+						if(block_number - number >= 10){
+							cb();
+							return ;
+						}
+
+						utils.get_info(number, function(res){
+							that.blocks.push(res.block[0]);
+							//unshift对应的是反过来的队列
+							get_other_block(number - 1, cb);
+						})
+					}
+
+					utils.get_info(undefined, function(res){
+						block_number = res.block.block_number;
+						that.blocks.push(res.block);
+						if(block_number != 0){
+							get_other_block(block_number - 1, function(res){
+								//finished init
+							})
+						}
+					})
+				}
+			}
+		})
+
+		app.init_blocks()
+	</script>
 </body>
 </html>

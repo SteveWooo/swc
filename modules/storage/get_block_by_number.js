@@ -2,6 +2,7 @@ const config = global.p2p.config;
 const fs = require('fs');
 
 module.exports = (client, block_number)=>{
+	// console.log('number:' + block_number);
 	let path = config.data_path;
 	var result = fs.readFileSync(path + "/" + config.name + "/blocks/block").toString();
 	result = result.split('\n');
