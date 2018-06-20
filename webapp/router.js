@@ -24,6 +24,13 @@ module.exports = (client)=>{
 	//@param block_number
 	app.get('/block/get_trades', init, require('./middlewares/block/get_trades'));
 
+	//获取挖矿任务
+	app.get('/miner/get_work', init, require('./middlewares/miner/get_work'));
+
+	//提交挖矿结果
+	//@param nonce
+	app.get('/miner/submit', init, require('./middlewares/miner/submit'));
+
 	//提交新交易
 	//@param data
 	app.get('/trade/create', init, require('./middlewares/trade/create'));
