@@ -5,4 +5,4 @@ require('./union_test')(client);
 
 // setInterval(()=>{
 // 	console.log(global.p2p.cache.trades);
-// }, 1000)
+// }, 1000) 
