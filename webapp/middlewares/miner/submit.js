@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const config = global.p2p.config;
 module.exports = async (req, res)=>{
+	let client = req.swc;
 	let nonce = req.query.nonce;
 	let prev_block = global.p2p.cache.prev_block;
 	let new_hash = crypto.createHash('md5').update(prev_block.hash_id + nonce).digest('hex');
@@ -21,4 +22,9 @@ module.exports = async (req, res)=>{
 
 	req.swc.actions.send_block(client, result.block, result.trades);
 	req.swc.trade.cache.clear();
+
+	res.send({
+		code : 2000,
+		message : "success"
+	})
 }
