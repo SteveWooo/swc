@@ -1,7 +1,7 @@
 module.exports = (req, res)=>{
 	let block_number = req.query.block_number;
 	if(!block_number || parseInt(block_number) != block_number){
-		send({
+		res.send({
 			code : 4001,
 			message : "params error",
 		});

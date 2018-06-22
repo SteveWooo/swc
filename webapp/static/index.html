@@ -11,9 +11,9 @@
 		}
 
 		#blocks ul li {
-			border: solid 1px #111;
-			width : 100%;
-			height : 90px;
+			/*border: solid 1px #111;*/
+			width : 50%;
+			height : 30px;
 			line-height: 30px;
 		}
 	</style>
@@ -26,7 +26,9 @@
 		<div id="blocks">
 			<ul>
 				<li v-for="block in blocks">
-					<strong>{{block.block_number}}</strong>:{{block.hash_id}}</br>by:{{block.creator}}
+					<a href="">
+						<strong>{{block.block_number}}</strong>:{{block.hash_id}}
+					</a>
 				</li>
 			</ul>
 		</div>

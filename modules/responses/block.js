@@ -30,7 +30,7 @@ module.exports = async (client, msg, info)=>{
 	//持久储存交易，并清空缓存中的相同交易
 	for(var i in new_trades){
 		client.storage.save_trade(client, new_trades[i]);
-		delete global.p2p.cache.trades[new_trades['hash_id']];
+		delete global.p2p.cache.trades[new_trades[i]['hash_id']];
 	}
 
 	//更新缓存
