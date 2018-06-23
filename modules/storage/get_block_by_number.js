@@ -1,8 +1,9 @@
 const config = global.p2p.config;
 const fs = require('fs');
 
-module.exports = (client, block_number)=>{
-	// console.log('number:' + block_number);
+module.exports = (client, block_number, limit)=>{
+	limit = parseInt(limit == undefined ? 0 : limit);
+	block_number = parseInt(block_number == undefined ? 0 : block_number);
 	let path = config.data_path;
 	var result = fs.readFileSync(path + "/" + config.name + "/blocks/block").toString();
 	result = result.split('\n');
@@ -14,7 +15,7 @@ module.exports = (client, block_number)=>{
 		}catch(e){
 			//不需要理会错误交易
 		}
-		if(d.block_number == block_number){
+		if(d.block_number <= block_number + limit && d.block_number >= block_number){
 			block.push(d);
 		}
 	})

@@ -12,23 +12,39 @@
 
 		#blocks ul li {
 			/*border: solid 1px #111;*/
-			width : 50%;
-			height : 30px;
-			line-height: 30px;
+			/*width : 50%;*/
+			/*height : 30px;*/
+			/*line-height: 30px;*/
 		}
 	</style>
 </head>
 <body>
 	<div id="app">
+		<div>
+			<span>new trade data:</span>
+			<input id="new_trade" >
+			<button v-on:click="new_trade()">submit</button>
+		</div>
+		<hr/>
 		<h1>
 			Blocks:
 		</h1>
 		<div id="blocks">
 			<ul>
 				<li v-for="block in blocks">
-					<a href="">
+					<a href="#" v-on:click="block_click(block)">
 						<strong>{{block.block_number}}</strong>:{{block.hash_id}}
 					</a>
+					<div v-if="block.clicked">
+						<ul v-if="block.loaded_trades">
+							<li v-if="block.trades.length == 0">empty</li>
+							<li v-for="trade in block.trades">
+								{{trade.creator}}:
+								</br>
+								<strong>{{trade.data}}</strong>
+							</li>
+						</ul>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -38,26 +54,7 @@
 		var config = {
 			base_url : "http://127.0.0.1",
 			base_port : "7002",
-		}
-
-		var utils = {
-			//获取最新区块
-			get_info : function(number, callback){
-				$.ajax({
-					url : config.base_url + ":" + config.base_port + "/block/get_info" + 
-						(number == undefined ? "" : "?block_number=" + number),
-					success : function(res){
-						if(res.code !== 2000){
-							console.log(res);
-							return ;
-						}
-						callback(res.data);
-					},
-					error : function(e){
-						console.log(e);
-					}
-				})
-			}
+			limit : 10
 		}
 
 		var app = new Vue({
@@ -68,32 +65,75 @@
 			methods : {
 				init_blocks : function(){
 					var that = this;
-					var block_number;
-
-					function get_other_block(number, cb){
-						if(number <= 0){
-							cb();
-							return ;
+					//get prev block
+					$.ajax({
+						url : config.base_url + ":" + config.base_port + "/block/get_info",
+						success : function(res){
+							if(res.code !== 2000){
+								console.error(res);
+								return ;
+							}
+							var prev_block = res.data.block[0];
+							that.init_list(prev_block);
 						}
-						if(block_number - number >= 10){
-							cb();
-							return ;
+					})
+				},
+				init_list : function(prev_block){
+					var that = this;
+					var start = prev_block.block_number - config.limit;
+					start = start < 0 ? 0 : start;
+					$.ajax({
+						url : config.base_url + ":" + config.base_port + "/block/get_info?block_number="
+							+ start + "&limit=" + config.limit,
+						success : function(res){
+							if(res.code !== 2000){
+								console.error(res);
+								return ;
+							}
+							var block = res.data.block;
+							for(var i=0;i<block.length;i++){
+								block[i].clicked = false;
+							}
+							that.blocks = block;
 						}
-
-						utils.get_info(number, function(res){
-							that.blocks.push(res.block[0]);
-							//unshift对应的是反过来的队列
-							get_other_block(number - 1, cb);
-						})
+					})
+				},
+				block_click : function(block){
+					if(block.clicked){ //如果是关上 直接返回
+						block.clicked = !block.clicked;
+						return ;
 					}
 
-					utils.get_info(undefined, function(res){
-						block_number = res.block.block_number;
-						that.blocks.push(res.block);
-						if(block_number != 0){
-							get_other_block(block_number - 1, function(res){
-								//finished init
-							})
+					if(block.loaded_trades){
+						block.clicked = !block.clicked;
+						return ;
+					}
+
+					$.ajax({
+						url : config.base_url + ":" + config.base_port + "/block/get_trades?block_number=" + 
+							block.block_number,
+						success : function(res){
+							if(res.code !== 2000){
+								console.error(res);
+								return ;
+							}
+							block.loaded_trades = true;
+							block.trades = res.data.trades;
+							block.clicked = !block.clicked;
+						}
+					})
+				},
+				new_trade : function(){
+					var data = $('#new_trade').val();
+
+					$.ajax({
+						url : config.base_url + ":" + config.base_port + "/trade/create?data=" + data,
+						success : function(res){
+							if(res.code !== 2000){
+								console.error(res);
+								return ;
+							}
+							$('#new_trade').val('');
 						}
 					})
 				}

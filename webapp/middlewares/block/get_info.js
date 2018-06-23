@@ -4,11 +4,11 @@ module.exports = (req, res)=>{
 		res.send({
 			code : 2000,
 			data : {
-				block : prev_block
+				block : [prev_block]
 			}
 		})
 	} else {
-		let block = req.swc.storage.get_block_by_number(req.swc, req.query.block_number);
+		let block = req.swc.storage.get_block_by_number(req.swc, req.query.block_number, req.query.limit);
 		res.send({
 			code : 2000,
 			data : {
