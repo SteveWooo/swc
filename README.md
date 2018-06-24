@@ -6,6 +6,8 @@
 * cd swc
 * 窗口1 : node ./startup.js
 * 窗口2 : node ./startup.js c1 7001
+* 窗口3 : node ./union_test/miner_web.js 
+* 浏览器打开 http://localhost:7002/static/index.html
 
 ##### 命令说明：
 ./node startup.js {全局唯一客户端编号（beta版本会自动分配）} {p2p节点端口号}
