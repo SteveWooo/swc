@@ -1,13 +1,9 @@
-module.exports = async (client, msg, info)=>{
+async function set_block(client, data){
+	let msg = data.msg;
+	let info = data.info;
 	let prev_block = global.p2p.cache.prev_block;
 	let new_block = msg.response.block;
 	let new_trades = msg.response.trades;
-	new_block = typeof new_block == 'string' ? JSON.parse(new_block) : new_block;
-	new_trades = typeof new_trades == 'string' ? JSON.parse(new_trades) : new_trades;
-	//重复收到广播 无视掉
-	if(prev_block.hash_id == new_block.hahs_id){
-		return ;
-	}
 	//valid block
 	let valid = await client.block.valid(client, prev_block, {
 		block : new_block,
@@ -38,4 +34,23 @@ module.exports = async (client, msg, info)=>{
 
 	//广播新区块
 	client.actions.send_block(client, new_block, new_trades);
+}
+
+module.exports = async (client, msg, info)=>{
+	let prev_block = global.p2p.cache.prev_block;
+	let new_block = msg.response.block;
+	let new_trades = msg.response.trades;
+	new_block = typeof new_block == 'string' ? JSON.parse(new_block) : new_block;
+	new_trades = typeof new_trades == 'string' ? JSON.parse(new_trades) : new_trades;
+	//重复收到广播 无视掉
+	if(prev_block.hash_id == new_block.hahs_id){
+		return ;
+	}
+
+	client.mq.add(client, {
+		msg : msg,
+		info : info
+	}, (data)=>{
+		set_block(client, data);
+	})
 }

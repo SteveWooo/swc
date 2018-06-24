@@ -4,7 +4,7 @@ const crypto = require('crypto');
 //获取新区块难度
 function get_difficult(client, prev_block, new_data){
 	const avg_count = 3; //取这个数量区块的平均挖矿速率
-	const target_time = 60000; //争取获得的挖矿时间
+	const target_time = 2000; //争取获得的挖矿时间
 	//每10个矿块调整一次难度
 	// console.log('difficult:' + prev_block.difficult);
 	// console.log(prev_block.block_number);

@@ -67,7 +67,7 @@ async function main(){
 	cache.finished_work = prev_block.hash_id;
 	console.log(nonce);
 	let result = await submit(nonce);
-	//continue mining;
+	
 	main();
 }
 

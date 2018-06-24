@@ -18,6 +18,9 @@ module.exports = ()=>{
 			trades : {},
 			prev_block : {}, //缓存上一个区块信息
 		},
+		mq : {
+			queue : []
+		},
 		config : {
 			version : "0.1",
 			webapp : {

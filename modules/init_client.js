@@ -43,6 +43,11 @@ const storage = { //封装存储接口，方便扩容
 	get_block_by_number : require('./storage/get_block_by_number'), //获取block @param client block_number
 }
 
+const mq = {
+	init : require('./mq/init'), //消息队列初始化 @param client
+	add : require('./mq/add'), //消息队列 @param client data callback
+}
+
 module.exports = ()=>{
 	return {
 		utils : require('./utils/index'), 
@@ -54,5 +59,6 @@ module.exports = ()=>{
 		block : block, //区块相关操作
 		trade : trade, //交易模块
 		storage : storage, //持久层模块
+		mq : mq, //消息队列
 	};
 }
