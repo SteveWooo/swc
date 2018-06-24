@@ -9,6 +9,10 @@ let config = {
 	}
 }
 
+let cache = {
+	finished_work : {}
+}
+
 function getWork(){
 	return new Promise((resolve, reject)=>{
 		let option = {
@@ -24,9 +28,13 @@ function getWork(){
 
 function miner(prev_block){
 	let nonce = 1;
+	let time = +new Date();
 	while(nonce++){
 		let new_hash = crypto.createHash('md5').update(prev_block.hash_id + nonce).digest('hex');
 		if(new_hash.substring(0, prev_block.difficult.length) == prev_block.difficult){
+			let now = +new Date();
+			let waste = now - time;
+			console.log('waste : ' + waste);
 			return nonce;
 		}
 	}
@@ -50,7 +58,13 @@ function submit(nonce){
 
 async function main(){
 	let prev_block = (await getWork()).data.prev_block;
+	if(cache.finished_work == prev_block.hash_id){
+		main();
+		return ;
+	}
+	console.log('difficult:' + prev_block.difficult);
 	let nonce = miner(prev_block);
+	cache.finished_work = prev_block.hash_id;
 	console.log(nonce);
 	let result = await submit(nonce);
 	//continue mining;
