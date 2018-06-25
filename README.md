@@ -4,6 +4,8 @@
 ## 本地演示启动（多控制台）
 * git clone https://github.com/SteveWooo/swc
 * cd swc
+* git checkout v1.0.0
+* npm i
 * 窗口1 : node ./startup.js
 * 窗口2 : node ./startup.js c1 7001
 * 窗口3 : node ./union_test/miner_web.js 
@@ -67,3 +69,4 @@ p2p网络中的节点接受到区块信息后，验证区块签名与所有交�
 ##### client.utils.keys.block_sign : 区块签名
 
 ## TODO list:
+##### v1.0.0版本上线
