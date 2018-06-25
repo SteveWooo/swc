@@ -1,6 +1,5 @@
 module.exports = async (client, msg, info)=>{
 	//验证真实性
-	console.log('get trade');
 	let trade = msg.response.trade;
 
 	let valid = await client.trade.valid(client, trade);

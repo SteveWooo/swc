@@ -1,20 +1,15 @@
 const config = global.p2p.config;
 const fs = require('fs');
 const path = require('path');
+const check_dir = require('./storage/check_dir');
 
-function init_block_data(){
-	//block
-	// if(path.existsSync(!config.data_path + "/" + config.name)){
-	// 	fs.mkdirSync(config.data_path + "/" + config.name, 0);
-	// 	fs.mkdirSync(config.data_path + "/" + config.name + "/blocks/block", 0);
-	// 	// fs.mkdirSync(config.data_path + "/" + config.name, 0)
-	// }
-	//trade
+async function init_block_data(){
+	await check_dir(config.storage_name);
 }
 
-module.exports = ()=>{
-	init_block_data();
-	let block_data = fs.readFileSync(config.data_path + "/" + config.name + "/blocks/block").toString();
+module.exports = async ()=>{
+	await init_block_data();
+	let block_data = fs.readFileSync(config.data_path + "/" + config.storage_name + "/blocks/block").toString();
 	block_data = block_data.split('\n');
 	//清理空的内容
 	for(var i=0;i<block_data.length;i++){
@@ -36,4 +31,5 @@ module.exports = ()=>{
 
 	//初始化缓存
 	global.p2p.cache['prev_block'] = prev_block;
+	global.p2p.cache['max_block_number'] = prev_block.block_number;
 }

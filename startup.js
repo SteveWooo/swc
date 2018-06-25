@@ -4,5 +4,5 @@ require('./webapp/router')(client); //启动web服务
 require('./union_test')(client);
 
 // setInterval(()=>{
-// 	console.log(global.p2p.cache.trades);
+// 	console.log(global.p2p.nodes);
 // }, 1000) 

@@ -1,3 +1,10 @@
+const crypto = require('crypto');
+
+//初始化客户端id，其实这里应该使用mac地址+随机数哈希
+let init_client_name = ()=>{
+	let name = crypto.randomBytes(64).toString('hex');
+	return name;
+}
 module.exports = ()=>{
 	global.p2p = {
 		nodes : [],
@@ -17,6 +24,7 @@ module.exports = ()=>{
 		cache : {
 			trades : {},
 			prev_block : {}, //缓存上一个区块信息
+			max_block_number : 0
 		},
 		mq : {
 			queue : []
@@ -26,7 +34,8 @@ module.exports = ()=>{
 			webapp : {
 				port : parseInt(process.argv[3] || 7070) + 1
 			},
-			name : process.argv[2] || "main",
+			name : init_client_name(),
+			storage_name : process.argv[2] || "main",
 			port : process.argv[3] || 7070,
 			node_timeout : 5000,
 			max_p2p_nodes : 10, //最大同时存在节点数目
@@ -41,17 +50,17 @@ module.exports = ()=>{
 			address : '127.0.0.1',
 			// address : '115.28.241.66',
 			port : 7070,
-			name : 'main'
+			// name : 'main'
 		}]
 	}
 
 	global.p2p.remote.map(data=>{
-		if(data['name'] == global.p2p.config.name){ //不需要把自己加进去
-			return ;
-		}
+		// if(data['name'] == global.p2p.config.name){ //不需要把自己加进去
+		// 	return ;
+		// }
 		// global.p2p.nodes[data['name']] = data;
 		// global.p2p.nodes[data['name']].ts = +new Date();
 
-		global.p2p.nodes.push(data);
+		// global.p2p.nodes.push(data);
 	})
 }

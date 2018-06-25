@@ -3,7 +3,7 @@ const fs = require('fs');
 
 module.exports = (client, hash_id)=>{
 	let path = config.data_path;
-	var result = fs.readFileSync(path + "/" + config.name + "/trades/trade").toString();
+	var result = fs.readFileSync(path + "/" + config.storage_name + "/trades/trade").toString();
 	result = result.split('\n');
 	result = result[0] == '' ? result.splice(1) : result; //去掉空的
 	let trade = [];

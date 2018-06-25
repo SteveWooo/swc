@@ -1,10 +1,12 @@
 module.exports = (req, res)=>{
+	let max_block_number = global.p2p.cache['max_block_number'];
 	if(req.query.block_number == undefined){
 		let prev_block = global.p2p.cache.prev_block;
 		res.send({
 			code : 2000,
 			data : {
-				block : [prev_block]
+				block : [prev_block],
+				max_block_number : max_block_number
 			}
 		})
 	} else {
@@ -12,7 +14,8 @@ module.exports = (req, res)=>{
 		res.send({
 			code : 2000,
 			data : {
-				block : block
+				block : block,
+				max_block_number : max_block_number
 			}
 		})
 	}

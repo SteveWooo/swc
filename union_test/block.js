@@ -10,12 +10,12 @@ module.exports = async (client)=>{
 			"merkle_root" : "00000000000000000000000000000000",
 			"block_number" : 0,
 			"nonce" : "",
-			"difficult" : "00",
+			"difficult" : "000",
 		}
 
 		let trade = await client.trade.create(client, "hahaha", config.default_key);
 		// trade.sign = trade.sign.replace(/4/g, 'a');
-		console.log(trade);
+		// console.log(trade);
 		let new_data = {
 			nonce : "asdasd",
 			trades : {},
@@ -39,14 +39,17 @@ module.exports = async (client)=>{
 
 		let new_block = (await client.block.create(client, prev_block, new_data)).block;
 		//create block
-		console.log(new_block);
+		// console.log(new_block);
 		// new_block.sign = new_block.sign.replace(/3/g, '');
 		//valid block
 		let valid = await client.block.valid(client, prev_block, {
 			block : new_block,
 			trades : new_data.trades
 		});
-		console.log("valid : " + valid);
+		// console.log("valid : " + valid);
+
+		client.storage.save_block(client, new_block);
+
 	}catch(e){
 		console.log(e);
 	}

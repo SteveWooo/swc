@@ -35,6 +35,9 @@ module.exports = (client)=>{
 	//@param data
 	app.get('/trade/create', init, require('./middlewares/trade/create'));
 
+	//创建新密钥
+	app.get('/utils/create_key', init, require('./middlewares/utils/create_key'));
+
 	app.listen(config.webapp.port, (e)=>{
 		if(e) throw JSON.stringify(e);
 		console.log('webapp listened at : ' + config.webapp.port);

@@ -27,7 +27,7 @@
 		</div>
 		<hr/>
 		<h1>
-			Blocks:
+			Blocks:{{max_block_number}}
 		</h1>
 		<div id="blocks">
 			<ul>
@@ -60,7 +60,8 @@
 		var app = new Vue({
 			el : '#app',
 			data : {
-				blocks : []
+				blocks : [],
+				max_block_number : 0
 			},
 			methods : {
 				init_blocks : function(){
@@ -74,6 +75,7 @@
 								return ;
 							}
 							var prev_block = res.data.block[0];
+							that.max_block_number = res.data.max_block_number;
 							that.init_list(prev_block);
 						}
 					})

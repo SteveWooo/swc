@@ -32,6 +32,11 @@ async function set_block(client, data){
 	//更新缓存
 	global.p2p.cache.prev_block = new_block;
 
+	//更新最高区块
+	if(global.p2p.cache['max_block_number'] < new_block.block_number){
+		global.p2p.cache['max_block_number'] = new_block.block_number;
+	}
+
 	//广播新区块
 	client.actions.send_block(client, new_block, new_trades);
 }

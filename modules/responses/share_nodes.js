@@ -1,6 +1,9 @@
 const config = global.p2p.config;
 
 function share_block(client, msg, info){
+	if(global.p2p.cache['max_block_number'] < msg.block_number){
+		global.p2p.cache['max_block_number'] = msg.block_number;
+	}
 	//判断对方的区块层数是否比自己的区块层数高，如果比自己低，则分享区块。（不需要处理比自己高的case）;
 	let prev_block = global.p2p.cache.prev_block;
 	if(prev_block.block_number > msg.block_number){
@@ -12,9 +15,13 @@ function share_block(client, msg, info){
 }
 
 exports.handle = (client, msg, info)=>{
-	share_block(client, msg, info);
 	let _nodes = msg.response['nodes'];
 	let _name = msg.response['name'];
+	//如果是自己 直接跳出
+	if(_name == config.name){
+		return ;
+	}
+	share_block(client, msg, info);
 	let now = +new Date();
 	let length = 0;
 
