@@ -1,5 +1,14 @@
 const config = global.p2p.config;
 
+function send_block(client, block_number, limit, info){
+	let block_share = client.storage.get_block_by_number(client, parseInt(block_number) + 1, limit);
+
+	for(var i=0;i<block_share.length;i++){
+		let trades_share = client.storage.get_trade_by_block(client, block_share[i]['hash_id']);
+		client.actions.send_block_to(client, info, block_share[i], trades_share);
+	}
+}
+
 function share_block(client, msg, info){
 	if(global.p2p.cache['max_block_number'] < msg.block_number){
 		global.p2p.cache['max_block_number'] = msg.block_number;
@@ -8,9 +17,9 @@ function share_block(client, msg, info){
 	let prev_block = global.p2p.cache.prev_block;
 	if(prev_block.block_number > msg.block_number){
 		//share block;
-		let block_share = client.storage.get_block_by_number(client, parseInt(msg.block_number) + 1);
-		let trades_share = client.storage.get_trade_by_block(client, block_share[0]['hash_id']);
-		client.actions.send_block_to(client, info, block_share[0], trades_share);
+		let limit = prev_block.block_number - msg.block_number <= config.max_sync_block ? 
+			prev_block.block_number - msg.block_number : config.max_sync_block;
+		send_block(client, msg.block_number, limit, info);
 	}
 }
 

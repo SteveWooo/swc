@@ -12,5 +12,5 @@ module.exports = (client)=>{
 		}catch(e){
 			console.log(e.message);
 		}
-	}, 1000)
+	}, 16)
 }
