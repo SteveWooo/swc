@@ -7,6 +7,23 @@ async function init_block_data(){
 	await check_dir(config.storage_name);
 }
 
+function get_max(blocks){
+	let max = 0;
+	//这里直接sort一下就行了
+	for(var i=0;i<blocks.length;i++){
+		let json = typeof blocks[i] == "string" ? JSON.parse(blocks[i]) : blocks[i];
+		json.block_number > max;
+		max = json.block_number;
+	}
+
+	for(var i=0;i<blocks.length;i++){
+		let json = typeof blocks[i] == "string" ? JSON.parse(blocks[i]) : blocks[i];
+		if(json.block_number == max){
+			return json;
+		}
+	}
+}
+
 module.exports = async ()=>{
 	await init_block_data();
 	let block_data = fs.readFileSync(config.data_path + "/" + config.storage_name + "/blocks/block").toString();
@@ -26,7 +43,9 @@ module.exports = async ()=>{
 		block_data.push(genesis);
 	}
 
-	let prev_block = block_data[block_data.length - 1];
+	// let prev_block = block_data[block_data.length - 1];
+	let prev_block = get_max(block_data);
+
 	prev_block = typeof prev_block == "string" ? JSON.parse(prev_block) : prev_block;
 
 	//初始化缓存
