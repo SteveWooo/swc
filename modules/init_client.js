@@ -1,5 +1,6 @@
 require('./init_config')(); //全局初始化
 require('./init_cache')(); //初始化缓存
+require('./init_log')(); //初始化日志
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 const config = global.p2p.config;
@@ -30,8 +31,7 @@ const block = {
 	get_markle_root : require('./block/get_markle_root'), //获取markle root @param client trades
 	create : require('./block/create'), //创建区块 @param client prev_block obj{nonce, trades, key}
 	valid : require('./block/valid'), //验证block真实性 @param client block key
-	get_work : ()=>{}, //获取当前需要挖矿的工作 @param client
-	submit_work : ()=>{}, //提交挖矿结果 @param client newblock trades
+	get_difficult : require('./block/get_difficult'), //获取新区块难度 @param client prev_block
 }
 
 const storage = { //封装存储接口，方便扩容

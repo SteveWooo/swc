@@ -2,3 +2,4 @@ node_modules/
 startup-*
 .DS_Store
 data/
+logs/

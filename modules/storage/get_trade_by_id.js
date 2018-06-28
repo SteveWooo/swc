@@ -12,6 +12,7 @@ module.exports = (client, hash_id)=>{
 			d = JSON.parse(d);
 		}catch(e){
 			//不需要理会错误交易
+			client.utils.log.error(client, "get_trade_by_id : " + e.message);
 		}
 		if(d.hash_id === hash_id){
 			trade.push(d);

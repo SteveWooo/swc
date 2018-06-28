@@ -1,5 +1,6 @@
 const config = global.p2p.config;
 
+//发送本地区块数据到远程节点
 function send_block(client, block_number, limit, info){
 	let block_share = client.storage.get_block_by_number(client, parseInt(block_number) + 1, limit);
 
@@ -9,6 +10,8 @@ function send_block(client, block_number, limit, info){
 	}
 }
 
+//进入分享区块流程，如果对方区块比自己的区块地的话，则分享自己的区块数据
+//解释一下max_sync_block:表示每次分享区块时的最大并发数量。打包发送容易影响流程稳定性。
 function share_block(client, msg, info){
 	if(global.p2p.cache['max_block_number'] < msg.block_number){
 		global.p2p.cache['max_block_number'] = msg.block_number;

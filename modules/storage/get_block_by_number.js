@@ -14,6 +14,7 @@ module.exports = (client, block_number, limit)=>{
 			d = JSON.parse(d);
 		}catch(e){
 			//不需要理会错误交易
+			client.utils.log.error(client, "get_block_by_number : " + e.message);
 		}
 		if(d.block_number <= block_number + limit && d.block_number >= block_number){
 			block.push(d);

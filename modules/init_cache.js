@@ -3,10 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const check_dir = require('./storage/check_dir');
 
-async function init_block_data(){
-	await check_dir(config.storage_name);
-}
-
+//获取区块文件中的最长链
+//ps:此处可优化空间极大，但由于客户端性能要求不高，推后实现
 function get_max(blocks){
 	let max = 0;
 	//这里直接sort一下就行了
@@ -25,7 +23,8 @@ function get_max(blocks){
 }
 
 module.exports = async ()=>{
-	await init_block_data();
+	//检查区块存放路径是否存在
+	await check_dir(config.storage_name);
 	let block_data = fs.readFileSync(config.data_path + "/" + config.storage_name + "/blocks/block").toString();
 	block_data = block_data.split('\n');
 	//清理空的内容

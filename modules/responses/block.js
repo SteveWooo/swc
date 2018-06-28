@@ -5,12 +5,16 @@ async function set_block(client, data){
 	let new_block = msg.response.block;
 	let new_trades = msg.response.trades;
 	//valid block
+	if(new_block.hash_id == prev_block.hash_id){
+		return ;
+	}
 	let valid = await client.block.valid(client, prev_block, {
 		block : new_block,
 		trades : new_trades
 	});
 
 	if(!valid){
+		client.utils.log.error(client, 'response/block:block valid faile,block_number:' + new_block.block_number);
 		return ;
 	}
 

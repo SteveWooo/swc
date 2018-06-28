@@ -28,5 +28,11 @@ module.exports = async (client, prev_block, new_block)=>{
 		valid = false;
 	}
 
+	//校验区块难度合理性
+	let new_difficult = client.block.get_difficult(client, prev_block);
+	if(new_difficult != block.difficult){
+		valid = false;
+	}
+
 	return valid;
 }
