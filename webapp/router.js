@@ -37,6 +37,8 @@ module.exports = (client)=>{
 
 	//创建新密钥
 	app.get('/utils/create_key', init, require('./middlewares/utils/create_key'));
+	//获取节点桶
+	app.get('/utils/get_nodes', init, require('./middlewares/utils/get_nodes'));
 
 	app.listen(config.webapp.port, (e)=>{
 		if(e) throw JSON.stringify(e);

@@ -48,8 +48,8 @@
 				</li>
 			</ul>
 		</div>
+		<p>当前连接数：{{nodes.length}}</p>
 	</div>
-
 	<script type="text/javascript">
 		var config = {
 			base_url : "http://127.0.0.1",
@@ -61,25 +61,11 @@
 			el : '#app',
 			data : {
 				blocks : [],
-				max_block_number : 0
+				max_block_number : 0,
+				nodes : []
 			},
 			methods : {
-				init_blocks : function(){
-					var that = this;
-					//get prev block
-					$.ajax({
-						url : config.base_url + ":" + config.base_port + "/block/get_info",
-						success : function(res){
-							if(res.code !== 2000){
-								console.error(res);
-								return ;
-							}
-							var prev_block = res.data.block[0];
-							that.max_block_number = res.data.max_block_number;
-							that.init_list(prev_block);
-						}
-					})
-				},
+				//init
 				init_list : function(prev_block){
 					var that = this;
 					var start = prev_block.block_number - config.limit;
@@ -100,6 +86,44 @@
 						}
 					})
 				},
+				init_blocks : function(){
+					var that = this;
+					//get prev block
+					$.ajax({
+						url : config.base_url + ":" + config.base_port + "/block/get_info",
+						success : function(res){
+							if(res.code !== 2000){
+								console.error(res);
+								return ;
+							}
+							var prev_block = res.data.block[0];
+							that.max_block_number = res.data.max_block_number;
+							that.init_list(prev_block);
+						}
+					})
+				},
+				get_nodes : function(){
+					var that = this;
+					$.ajax({
+						url : config.base_url + ":" + config.base_port + "/utils/get_nodes",
+						success : function(res){
+							if(res.code !== 2000){
+								console.error(res);
+								return ;
+							}
+							that.nodes = res.data.nodes;
+						}
+					})
+				},
+				init : function(){
+					var that = this;
+					this.init_blocks();
+					setInterval(function(){
+						that.get_nodes();
+					}, 5000)
+				},
+
+				//events
 				block_click : function(block){
 					if(block.clicked){ //如果是关上 直接返回
 						block.clicked = !block.clicked;
@@ -125,6 +149,8 @@
 						}
 					})
 				},
+
+				//controller
 				new_trade : function(){
 					var data = $('#new_trade').val();
 
@@ -142,7 +168,7 @@
 			}
 		})
 
-		app.init_blocks()
+		app.init();
 	</script>
 </body>
 </html>
