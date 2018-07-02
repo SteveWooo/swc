@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-//初始化客户端id，其实这里应该使用mac地址+随机数哈希
+//初始化客户端id，其实这里应该使用公钥
 let init_client_name = ()=>{
 	let name = crypto.randomBytes(64).toString('hex');
 	return name;

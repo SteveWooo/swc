@@ -48,6 +48,10 @@ const mq = {
 	add : require('./mq/add'), //消息队列 @param client data callback
 }
 
+const contract = {
+	create : require('./contract/create'),
+}
+
 module.exports = ()=>{
 	return {
 		utils : require('./utils/index'), 
@@ -60,5 +64,6 @@ module.exports = ()=>{
 		trade : trade, //交易模块
 		storage : storage, //持久层模块
 		mq : mq, //消息队列
+		contract : contract, //智能合约层
 	};
 }

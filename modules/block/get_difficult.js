@@ -1,11 +1,14 @@
 const config = global.p2p.config;
 const crypto = require('crypto');
 
+/*
+* 每10个区块调整一次挖矿难度
+*/
+const avg_count = 10; //取这个数量区块的平均挖矿速率
+const target_time = 10000; //争取获得的挖矿时间
+
 //获取新区块难度
 function get_difficult(client, prev_block){
-	const avg_count = 10; //取这个数量区块的平均挖矿速率
-	const target_time = 2000; //争取获得的挖矿时间
-	//每10个矿块调整一次难度
 	// console.log('difficult:' + prev_block.difficult);
 	// console.log(prev_block.block_number);
 	if(prev_block.block_number % 5 != 0 || prev_block.block_number < avg_count){
