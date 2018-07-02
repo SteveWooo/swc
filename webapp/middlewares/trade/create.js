@@ -7,8 +7,18 @@ module.exports = (req, res)=>{
 	}
 
 	req.swc.trade.create(req.swc, data, key).then(result=>{
+		if(result.error){
+			return result;
+		}
 		return req.swc.actions.send_trade(req.swc, result);
 	}).then(result=>{
+		if(result.error){
+			res.send({
+				code : 4000,
+				message : result.error
+			})
+			return ;
+		}
 		res.send({
 			code : 2000,
 			data : {

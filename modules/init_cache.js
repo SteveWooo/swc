@@ -1,7 +1,7 @@
 const config = global.p2p.config;
 const fs = require('fs');
 const path = require('path');
-const check_dir = require('./storage/check_dir');
+const check_dir = require('./persistence_layer/storage/check_dir');
 
 //获取区块文件中的最长链
 //ps:此处可优化空间极大，但由于客户端性能要求不高，推后实现

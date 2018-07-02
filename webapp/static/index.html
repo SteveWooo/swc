@@ -21,9 +21,18 @@
 <body>
 	<div id="app">
 		<div>
-			<span>新内容:</span>
-			<input id="new_trade" >
-			<button v-on:click="new_trade()">submit</button>
+			<h4>
+				create_app
+			</h4>
+			<div style="width:30px;">
+				<span>name:</span>
+				<input id="create_app_name" value="test">
+			</div>
+			<div style="width:30px;">
+				<span>data:</span>
+				<input id="create_app_data" value="test data">
+			</div>
+			<button v-on:click="create_app()">submit</button>
 		</div>
 		<hr/>
 		<h1>
@@ -151,8 +160,18 @@
 				},
 
 				//controller
-				new_trade : function(){
-					var data = $('#new_trade').val();
+				create_app : function(){
+					var app_name = $('#create_app_name').val();
+					var app_data = $('#create_app_data').val();
+
+					var data = JSON.stringify({
+						event : 'create_app',
+						body : {
+							app_name : app_name,
+							create_time : +new Date(),
+							data : app_data
+						}
+					})
 
 					$.ajax({
 						url : config.base_url + ":" + config.base_port + "/trade/create?data=" + data,
@@ -161,7 +180,8 @@
 								console.error(res);
 								return ;
 							}
-							$('#new_trade').val('');
+							$('#create_app_name').val('');
+							$('#create_app_data').val('');
 						}
 					})
 				}
