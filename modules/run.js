@@ -31,6 +31,7 @@ module.exports.handle = (client)=>{
 	init_udp_client(client);
 	//同步区块
 	//启动mq
+	//start:
 	client.mq.init(client);
 	return client.actions.start_share_nodes(client); //心跳行为
 }
