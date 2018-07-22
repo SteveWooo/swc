@@ -6,6 +6,7 @@ exports.remove = (hash_id)=>{
 	delete global.p2p.cache.trades[hash_id];
 }
 
+//获取所有交易。
 exports.get = ()=>{
 	return global.p2p.cache.trades;
 }
