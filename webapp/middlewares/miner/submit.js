@@ -15,7 +15,7 @@ module.exports = async (req, res)=>{
 	}
 
 	let result = await client.block.create(client, prev_block, {
-		trades : global.p2p.cache.trades,
+		trades : req.swc.trade.cache.get(),
 		key : config.default_key,
 		nonce : nonce
 	})	
